@@ -1,5 +1,6 @@
 package io.bootique.jdbc.test;
 
+import io.bootique.jdbc.test.matcher.RowCountMatcher;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,15 +10,15 @@ public class TestGet extends BasicTest {
 
     @Test
     public void testGetString() {
-        assertNull(T1.getString("c2"));
+        T1.matcher().eq("c2", "xr").assertNoMatches();
         T1.insert(1, "xr", "yr");
-        assertEquals("xr", T1.getString("c2"));
+        T1.matcher().eq("c2","xr").assertOneMatch();
     }
 
     @Test
     public void testGetInt() {
-        assertEquals(0, T1.getInt("c1"));
+        T1.matcher().eq("c1",56).assertNoMatches();
         T1.insert(56, "xr", "yr");
-        assertEquals(56, T1.getInt("c1"));
+        T1.matcher().eq("c1",56).assertOneMatch();
     }
 }
